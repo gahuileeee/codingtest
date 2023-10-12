@@ -1,0 +1,34 @@
+package 백4811;
+
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+		
+		while(sc.hasNext()) {
+			int n= sc.nextInt();
+			if(n==0) {
+				break;
+			}
+			BigInteger a= new BigInteger("1");
+			BigInteger b= new BigInteger("1");
+			
+			for(int i=0; i<2*n;i++) {
+				a=a.multiply(BigInteger.valueOf(2*n-i));
+			}
+			for(int i=0; i<n;i++) {
+				b=b.multiply(BigInteger.valueOf(n-i));
+			}
+			BigInteger c= a.divide(b);
+			BigInteger d=c.divide(b);
+			BigInteger x= d.divide(BigInteger.valueOf(n+1));
+			System.out.println(x);
+
+	}
+	}
+}
+
