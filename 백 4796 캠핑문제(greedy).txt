@@ -1,0 +1,28 @@
+package greedy캠핑4796;
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		int i=1;
+		Scanner sc= new Scanner(System.in);
+		while(sc.hasNext()) {
+			int l = sc.nextInt();
+			int p= sc.nextInt();
+			int v=sc.nextInt();
+			if(l==0) {
+				break;
+			}
+		int j=v/p;
+		int k=v%p;
+		int x= l*j;
+		if(k>l) {
+			System.out.println("Case "+i+": "+(x+l));		}
+		else {
+		System.out.println("Case "+i+": "+(x+k));
+		}
+		i++;
+		}
+	}
+}
