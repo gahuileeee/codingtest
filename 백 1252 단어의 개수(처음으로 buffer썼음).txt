@@ -1,0 +1,54 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static void main(String[] args)throws IOException {
+		 while(true) {
+			 BufferedReader bf= new BufferedReader (new InputStreamReader(System.in));
+				String a= bf.readLine();
+				if (a==null) {
+					break;
+				}
+			 int b=a.length();
+			 int bb=0;
+			 for(int i=0; i<b; i++) {
+				 int c=a.charAt(i);
+				 if(c==32) {
+					 bb++;
+				 }
+			 }
+			 if (b==1) {
+				 if(a.charAt(0)==32) {
+					 System.out.println(0);
+					 continue;
+				 }
+			 }
+			 if(a.charAt(0)==32) {
+				 if(a.charAt(b-1)==32) {
+					 System.out.println(bb-1);
+					 continue;
+				 }
+			 }
+				 if(a.charAt(0)==32) {
+					 System.out.println(bb);
+					 continue;
+				 }
+				 if(a.charAt(b-1)==32) {
+					 System.out.println(bb);
+					 continue;
+				 }
+				 
+				 if(bb==0) {
+					 System.out.println(1);
+					 continue;
+				 }else{
+					 System.out.println(bb+1);
+					 continue;
+				 }
+			
+		 }
+		}
+
+}
