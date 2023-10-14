@@ -1,0 +1,35 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		while(sc.hasNext()) {
+			int n= sc.nextInt();
+			int k= sc.nextInt();
+			
+			int [] arr = new int [n];
+			for(int i=0; i<n; i++) {
+				arr[i]= sc.nextInt();
+			}
+			Arrays.sort(arr);
+			int []pp = new int[n-1];
+			for(int i=0; i<n-1;i++) {
+				pp[i]= arr[i+1]-arr[i];
+			}
+			Arrays.sort(pp);
+			int l = arr[n-1]-arr[0];
+			if(n==1) {
+				System.out.println(0);
+			}else {
+			for(int i=0;i<k-1;i++) {
+				l-=pp[n-2-i];
+			}
+			System.out.println(l);
+			}
+			
+		}
+	}
+}
