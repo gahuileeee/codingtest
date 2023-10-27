@@ -1,0 +1,57 @@
+package com.fastcampus.ch2;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Calendar;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+ @Controller
+public class YoilTellerMVC {
+	 @RequestMapping("/getYoilMVC")
+//	public void main(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		 public String main(int year, int month, int day, Model model) throws IOException{
+//	method를 String이 아닌 void로 하고/view 이름을 getYoilMVC로 하면 그 view를 보여줌
+//		 반환타입을 ModelAndView 가 있음. 매개변수값에 model을 만들지 않고 안에다가
+//		 ModelAndView mv= new ModelAndView(); 만들어서 mv.addObject()로 값을 넣어줄 수도 있음.
+//		 반환할 view를 지정하고 mv.setViewNAme(); return mv를 함. 
+		 
+		 // 입력 부분을 없애버림. 
+		 
+//		 1. 유효성 검사
+		 if(!isValid(year,month,day)) {
+			 return "yoilerror";
+		 }
+//		 요일 계산
+	char yoil=getYoil(year, month, day);
+	
+//	계산한 결과를 model에 저장.
+	model.addAttribute("year",year);
+	model.addAttribute("month",month);
+	model.addAttribute("day",day);
+	model.addAttribute("yoil",yoil);
+	return "yoil"; //WEB-INF/views/yoil.jsp로 가라. (공통된 부분 빼고 yoil만)
+//	출력에 해당하는 view를 따로 때서 관심사를 분리할 수 있었음.
+	
+	
+
+	}
+
+	private boolean isValid(int year, int month, int day) {
+		return true;
+	}
+
+	private char getYoil(int year, int month, int day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(year,month-1,day);
+		
+		int dayofWeek =cal.get(Calendar.DAY_OF_WEEK);
+		return "일월화수목금토".charAt(dayofWeek);
+	}
+
+}
