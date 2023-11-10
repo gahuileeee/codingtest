@@ -1,0 +1,91 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class 연습 {
+	public static int A(char a) {
+		String b= String.valueOf(a);
+		return Integer.parseInt(b);
+	}
+	
+// 	파티 인원 중에서 brr이 contain 되었다면 파티 인원 배열 추가하기.
+	public static void methodA(int [][] brr, List<Integer> list, int m) {
+		
+		for(int i=0; i<m; i++) {
+			int c=brr[i][0];
+			for(int j=1; j<=c;j++) {
+				if(list.contains(brr[i][j])) {
+					for(int jj=1; jj<=c; jj++) {
+						list.add(brr[i][jj]);
+					}
+					break;
+				}
+			}
+		}
+	
+	}
+//	그런 다음에 다시 위에서 부터 내려와서
+//	contain method 돌린 후 list에 그 파티 인원 없으면 false이면 k++ 하기.
+	public static int methodB(int [][] brr, List<Integer> list, int m) {
+		int kkk=0;
+		for(int i=0; i<m; i++) {
+			boolean a= false;
+			int c=brr[i][0];
+			for(int j=1; j<=c;j++) {
+				if(list.contains(brr[i][j])) {
+					a=true;
+				}
+			}
+			if(a==false) {
+				kkk++;
+			}
+		}
+		return kkk;
+	}
+	
+	public static void main(String[]args) throws IOException {
+		BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+//		n은 사람의 수
+//		m은 파티의 수
+		int n= Integer.parseInt(st.nextToken());
+		int m= Integer.parseInt(st.nextToken());
+		
+//		0명일 때 처리 나중에 하기
+		st = new StringTokenizer(br.readLine());
+		int x= Integer.parseInt(st.nextToken());
+		if(x==0) {
+			System.out.println(m);
+			System.exit(0);
+		}
+		List<Integer> list = new ArrayList<>();
+		for(int i=0; i<x; i++) {
+			list.add(Integer.parseInt(st.nextToken()));
+		}
+	// list에 진실을 아는 사람 넣기
+		int [][] brr= new int [m][];
+		for(int i=0; i<m; i++) {
+			st= new StringTokenizer(br.readLine());
+			int pp=Integer.parseInt(st.nextToken());
+			brr[i]= new int[pp+1];
+			brr[i][0]=pp;
+			for(int j=1; j<pp+1;j++) {
+				brr[i][j]=Integer.parseInt(st.nextToken());
+			}
+		}
+		
+//		배열 저장했고 음 어떻게 해야할까?
+		
+//	 	파티 인원 중에서 arr이 contain 되었다면 파티 인원 배열 추가하기.
+		for(int i=0; i<m; i++) {
+			methodA(brr, list, m);
+		}
+//		그런 다음에 다시 위에서 부터 내려와서
+//		contain method 돌린 후 arr과 그 파티 인원이 false이면 k++ 하기.
+		System.out.println(methodB(brr, list,  m));
+		
+	}
+}
