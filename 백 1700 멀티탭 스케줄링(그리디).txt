@@ -1,0 +1,104 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class Main {
+//	1700 멀티탭 스케줄링
+	public static void main(String[]args) throws IOException {
+		BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st= new StringTokenizer(br.readLine());
+		int n=Integer.parseInt(st.nextToken()); //멀티탭 구멍 수
+		int k=Integer.parseInt(st.nextToken()); //전기 용품 총 사용횟수
+		st= new StringTokenizer(br.readLine());
+		int [] arr= new int[k];
+		
+//		배열에 입력을 받았다.
+		for(int i=0; i<arr.length; i++) {
+			arr[i]=Integer.parseInt(st.nextToken());
+		}
+
+		//		이제 돌려봅시다.
+//		음.. 배열을 만들까?
+		int [] brr= new int [n];
+//		여기에다가 배열을 넣어야 할 것 같은데?
+		int c=0;
+		
+		for(int i=0; i<brr.length; i++) {
+			for(int j=c; j<arr.length; j++) {
+				int a=arr[j];
+				if(containA(a,brr)) {
+					c++;
+				}else {
+					brr[i]=arr[j];
+					c++;
+					break;
+				}
+			}
+		}
+
+		if(c==arr.length) {
+			System.out.println(0);
+			System.exit(0);
+		}
+//		지금 멀티탭은 꽉찬 상태!
+//		c부터 시작하면 될 듯.
+		int kk=0;
+		for(int i=c; i<arr.length;i++) {
+			
+				if(containA(arr[i], brr)) {
+				}else {
+					brr[off(brr,k,i,arr)]=arr[i];
+					kk++;
+				}
+			
+		}
+		System.out.println(kk);
+
+	}
+	public static int off( int[] brr, int a, int c, int [] arr) {
+		int k=0;
+		int kk=0;
+//		제일 나중에 쓸 것을 넣어주기?
+		for(int i=0; i<brr.length; i++) {
+			int ab=0;
+			for (int j=c; j<arr.length; j++)
+			if(brr[i]==arr[j]) {
+				if(j>k) {
+					ab=1;
+					k=j;
+					kk=i;
+					break;
+				}
+				ab=1;
+				break;
+			}
+			if(ab==0) {
+				return i;
+			}
+		}
+		
+		return kk;
+	}
+	
+	public static boolean containA(int a, int[]brr) {
+		for(int i=0; i<brr.length; i++) {
+			if(brr[i]==a) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public static boolean contain(int[] arr, int[] brr) {
+		for(int i=0; i<arr.length; i++) {
+			for(int j=0; j<brr.length; j++) {
+				if(brr[j]==arr[i]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+}
