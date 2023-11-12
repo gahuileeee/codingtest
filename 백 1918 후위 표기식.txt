@@ -1,0 +1,131 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+	public static void methodB(List<String> list, int i) {
+		String a1=list.get(i-1);
+		String a2=list.get(i);
+		String a3=list.get(i+1);
+		list.add(i-1, a1+a3+a2);
+		
+		list.remove(i);
+		list.remove(i);
+		list.remove(i);
+	}
+	public static void methodC(List<String> list, String a) {
+	int k=0;
+		for(int i=0; i<a.length(); i++) {
+		try{ if(list.get(i).equals("(")) {
+				if(k<i) {
+					k=i;
+				}
+			}
+		} catch(Exception e) {
+			break;
+			}
+		}
+		
+//		괄호 안에 있는 것 중에서 */ 를 찾아서 처리하고 +- 순서	
+	
+			list.remove(k);
+			for(int i=k; i<a.length(); i++) {
+				try{if(list.get(i).equals("*")||list.get(i).equals("/")) {
+					methodB(list,i);
+					i--;
+				}
+			}catch(Exception e) {
+				break;
+			}
+				if(list.get(i).equals(")")) {
+					break;
+				}
+				}
+			for(int i=k; i<a.length(); i++) {
+//				A+B
+				try{if(list.get(i).equals("+")||list.get(i).equals("-")) {
+					methodB(list,i);
+					i--;
+				}
+			}catch(Exception e) {
+				break;
+			}
+				if(list.get(i).equals(")")) {
+					list.remove(i);
+					break;
+				}
+				}
+			
+	}
+	
+	public static String methodA(char a) {
+	 return String.valueOf(a);
+	}
+//	1918 후위 표기식
+	public static void main(String[]args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String a= br.readLine();
+		List<String> list= new ArrayList<>();
+		int time=0;
+		for(int i=0; i<a.length(); i++) {
+			list.add(methodA(a.charAt(i)));
+			if(methodA(a.charAt(i)).equals("(")) {
+				time++;
+			}
+		}
+//		list안에 넣었음.
+		
+//		먼저 괄호를 찾아야 하고
+//		그렇구나 괄호가 여러개 일수도 있구나! 수학적으로 중괄호 써야하는거 아냐!!
+		for(int i=0; i<time; i++) {
+			methodC(list,a);
+		}
+	
+			
+		
+//		다시 처음부터
+		for(int i=0; i<a.length(); i++) {
+//			A*B
+			try{if(list.get(i).equals("*")||list.get(i).equals("/")) {
+				methodB(list,i);
+				i--;
+			}
+		}catch(Exception e) {
+			break;
+		}
+			}
+		for(int i=0; i<a.length(); i++) {
+//			A+B
+			
+			try{if(list.get(i).equals("+")||list.get(i).equals("-")) {
+				methodB(list,i);
+				i--;
+			}
+		}catch(Exception e) {
+			break;
+		}
+			}
+		
+		for(int i=0; i<a.length();i++) {
+			try{System.out.print(list.get(i));}
+			catch(Exception e) {
+				System.exit(0);
+			}
+		}
+		
+//		처리: B*C --> BC*하고 BC를 하나로 묶기.
+		
+//		ex) A+B*C
+//		->A+BC*
+//		ABC*+  (BC*문자셋이고, 앞에문자열 + 뒤에 + 수식은 맨 뒤로)
+		
+//		A*C+(A+B)*C
+//		A*C+AB+*C
+//		AC*+AB+*C
+//		AC*+AB+C*
+//		AC*AB+C*+
+//		->(AXC) + (A+B)*C
+	}
+}
