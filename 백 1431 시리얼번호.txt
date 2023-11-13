@@ -1,0 +1,99 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class 유기농배추 {
+	public static void methodA(List<String> arr, String[] brr, int i) {
+//		가장 짧은 것을 찾자
+		int k=51;
+		int kk=0;
+		for(int j=0; j<brr.length; j++) {
+			try {int a= arr.get(j).length();
+			if(a<k) {
+				k=a;
+				kk=j;
+			}else if(a==k) {
+			kk=	methodAA(arr, kk, j);
+			}}catch(Exception e) {
+				break;
+			}
+		}
+		brr[i]=arr.get(kk);
+		arr.remove(kk);
+		}
+	
+	public static int methodAA(List<String> arr, int kk, int j) {
+		int a=arr.get(kk).length();
+		int sum=0;
+		for(int k=0; k<a; k++) {
+			try {sum+=methodB(arr.get(kk).charAt(k));
+			}
+			catch(Exception e) {
+				
+			}
+		}
+		int sum1=0;
+		for(int k=0; k<a; k++) {
+			try {sum1+=methodB(arr.get(j).charAt(k));
+			}
+			catch(Exception e) {
+			}
+		}
+		if(sum>sum1) {
+			return j;
+		}else if(sum<sum1) {
+			return kk;
+		}else {
+			return methodAAA(arr, kk, j);
+		}
+		
+	}
+	public static int methodAAA(List<String>arr, int kk, int j) {
+		int a=arr.get(kk).length();
+		for(int k=0; k<a; k++) {
+			int aa=methodBB(arr.get(kk).charAt(k));
+			int bb=methodBB(arr.get(j).charAt(k));
+			if(aa<bb) {
+				return kk;
+			}else if(bb<aa) {
+				return j;
+			}else {
+				continue;
+			}
+		}
+		return kk;
+	}
+	
+public static int methodB(char a) {
+	String aa= String.valueOf(a);
+	return Integer.parseInt(aa);
+	}
+public static int methodBB(char a) {
+	return (int )a;
+}
+	public static void main(String [] args) throws IOException{
+	BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+	int n= Integer.parseInt(br.readLine());
+	
+//	1. methodA: 짧은 것부터
+//	2. methodB: 길이가 같다면 A숫자 B 숫자 합을 비교해서 작은 것부터
+//	3. methodC: 합이 같다면 사전순으로 비교 (숫자가 알파벳보다 사전순으로 작다)
+	List<String> arr= new ArrayList<>();
+	String [] brr= new String [n];
+	for(int i=0; i<n; i++) {
+		StringTokenizer st= new StringTokenizer(br.readLine());
+		arr.add(st.nextToken());
+	}
+	
+	for(int i=0; i<n; i++) {
+		methodA(arr,brr,i);
+	}
+	
+	for(int i=0; i<n; i++) {
+		System.out.println(brr[i]);
+	}
+	}
+}
