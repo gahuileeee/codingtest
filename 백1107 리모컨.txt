@@ -1,0 +1,154 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.TreeSet;
+
+//수빈이는 TV를 보고 있다. 수빈이는 채널을 돌리려고 했지만,
+//버튼을 너무 세게 누르는 바람에, 일부 숫자 버튼이 고장났다.
+//
+//리모컨에는 버튼이 0부터 9까지 숫자, +와 -가 있다. +를 누르면 현재 보고있는 채널에서 +1된 채널로 이동하고, -를 누르면 -1된 채널로 이동한다. 
+//채널 0에서 -를 누른 경우에는 채널이 변하지 않고, 채널은 무한대 만큼 있다.
+//
+//수빈이가 지금 이동하려고 하는 채널은 N이다. 어떤 버튼이 고장났는지 주어졌을 때, 채널 N으로 이동하기 위해서 버튼을 최소 몇 번 눌러야하는지
+//구하는 프로그램을 작성하시오.
+//
+//수빈이가 지금 보고 있는 채널은 100번이다.
+
+//첫째 줄에 수빈이가 이동하려고 하는 채널 N (0 ≤ N ≤ 500,000)이 주어진다. 
+//둘째 줄에는 고장난 버튼의 개수 M (0 ≤ M ≤ 10)이 주어진다. 고장난 버튼이 있는 경우에는 셋째 줄에는 고장난 버튼이 주어지며,
+//같은 버튼이 여러 번 주어지는 경우는 없다
+
+//첫째 줄에 채널 N으로 이동하기 위해 버튼을 최소 몇 번 눌러야 하는지를 출력한다.
+public class Main {
+
+ 
+	public static void main(String[]args) throws IOException{
+		BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+		String a= br.readLine();
+		int b= Integer.parseInt(br.readLine());
+		
+		TreeSet<Integer> tree= new TreeSet<>();
+		for(int i=0; i<10; i++) {
+			tree.add(i);
+		}
+		if(b!=0) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			for(int i=0; i<b; i++) {
+				tree.remove(Integer.parseInt(st.nextToken()));
+			}		
+		}
+	
+		
+		int first =methodA(a); //100 하나씩 channel로 가는 것.
+		if(tree.isEmpty()) {
+			System.out.println(first);
+			System.exit(0);
+		}
+		int second =methodB(a, tree); //0일 수도 있음.
+		int aa= Integer.parseInt(a);
+		if(second!=0) {
+			second= (second-aa)+String.valueOf(second).length();
+		}
+		int third = methodC(a,tree); //-1일 수도 있음.
+		if(third!=-1) {
+			third= (aa-third)+String.valueOf(third).length();
+		}
+		int answer=first;
+		if(second<answer&&second!=0) {
+			answer= second;
+		}
+		if(third<answer&&third!=-1) {
+			answer=third;
+		}
+		System.out.println(answer);
+		
+	}
+	public static int methodA(String a) {
+		//현재 채널 100
+		int b= Integer.parseInt(a);
+		int c= 100-b;
+		if(c>=0) {
+			return  c;
+		}else {
+			return -c;
+		}
+	}
+//		500,000에서 a까지 가는 것 중... 가장 가까운 것?
+		public static int methodB(String a, TreeSet<Integer> tree) {
+			int aa= Integer.parseInt(a);
+			String b="999999";
+			int cc=0;
+			while(true) {
+				boolean m = true;
+				for(int i=0; i<b.length(); i++) {
+					
+				if(!tree.contains(change(b,i))) {
+					m=false;
+				}
+				}
+				int bb=Integer.parseInt(b);
+				if(m) {
+//					tree로 구현할 수 있고 b값보다 aa값 보다 더 크다면 cc값에 저장.
+					if(bb>aa) {
+						cc=bb;
+					}else if(bb==aa) {
+						return bb;
+					}else {
+						return cc;
+					}
+					
+				} 
+				bb--;
+				if(bb<0) {
+					return cc;
+				}
+				b=String.valueOf(bb);
+				
+			}
+			
+		} //method B 끝
+		
+		//이번에는 0부터 갈 것임.
+		public static int methodC(String a, TreeSet<Integer> tree) {
+			int aa= Integer.parseInt(a);
+			String b="0";
+			int cc=-1;
+			while(true) {
+				boolean m = true;
+				for(int i=0; i<b.length(); i++) {
+					
+				if(!tree.contains(change(b,i))) {
+					m=false;
+				}
+				}
+				int bb=Integer.parseInt(b);
+				if(m) {
+//					tree로 구현할 수 있고 b값보다 aa값 보다 더 크다면 cc값에 저장.
+					if(bb<aa) {
+						cc=bb;
+					}else if(bb==aa) {
+						return bb;
+					}else if(bb>aa){
+						return cc;
+					}
+					
+				}else if(bb>aa) {
+					return cc;
+				}
+				bb++;
+				b=String.valueOf(bb);
+				
+			}
+			
+		}
+
+public static int change(String a, int i) {
+	char c=a.charAt(i);
+	String s= String.valueOf(c);
+	return Integer.parseInt(s);
+	
+} //change 끝
+
+
+}
