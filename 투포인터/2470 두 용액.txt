@@ -1,0 +1,58 @@
+// 백준 2470 두 용액
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
+
+public class Main {
+	static int N;
+	static int [] arr;
+	static int tiny;
+	static int [] a;
+	static StringBuffer sb = new StringBuffer();
+	public static void main(String[] args)throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N= Integer.parseInt(br.readLine());
+		arr= new int[N];
+		a = new int[2];
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for(int i=0; i<N; i++) {
+			arr[i]=Integer.parseInt(st.nextToken());
+		}
+		tiny = Integer.MAX_VALUE; //우선 가장 큰 숫자로 채우고
+		Arrays.sort(arr); // 오름차순으로 정렬한다
+		
+		if(arr[0]>=0) {  //모두 알칼리(0 이상) 일 떄의 예외처리
+			System.out.println(arr[0]+" "+arr[1]);
+			System.exit(0);
+		}else if(arr[N-1]<0) { //모두 산성(0미만) 일 때의 예외처리
+			System.out.println(arr[N-2]+" "+arr[N-1]);
+			System.exit(0);
+		}
+		two(); //two point method 실행
+		System.out.println(a[0]+" "+a[1]);
+	}
+	public static void two() {  //two point에다가 이분 탐색을 섞었음.
+		int start = 0;
+		int end = N-1;
+		while(start<end) { //끝과 끝으로 지정해서 더하는데,
+			int c= arr[start]+arr[end];
+			if(Math.abs(c)<tiny) {
+				tiny=Math.abs(c);
+				a[0]=arr[start];
+				a[1]=arr[end];
+			}
+			if(c<0) { // 만약에 음수값이면 앞에 숫자를 1칸 이동함
+				start++;
+			}else if(c>0){ //만약에 양수값이면 뒤에 숫자를 1칸 이동함
+				end--;
+			}else if(c==0) { //절대값이 0이면 종료.
+				a[0]=arr[start];
+				a[1]=arr[end];
+				break;
+			}
+		}
+	}
+}
